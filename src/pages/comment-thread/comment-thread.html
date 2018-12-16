@@ -1,0 +1,92 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>commentThreadPage</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form>
+    <form [formGroup]="createCommentFormThread" (submit)="createCommentThread()" novalidate>
+    <ion-item>
+         <ion-label stacked>Comment</ion-label>
+         <ion-textarea (input)="onTextarea($event.target.value)" formControlName="comments" rows="3" maxlength="200" type="text"
+           placeholder="Do You Agree With This?">
+         </ion-textarea>
+         <ion-label class="remaining" color="{{remaining < 50 ? 'danger' : 'grey'}}">{{remaining}} Characters Remaining</ion-label>
+       </ion-item>
+       <button ion-button block type="submit" [disabled]="!createCommentFormThread.valid">
+       Post Comment
+       </button>
+       </form>
+
+  </form>
+
+  <ion-card-content>
+
+    <ion-card>
+
+    <ion-item>
+      <ion-avatar item-start>
+       <img src="https://picsum.photos/200/300/?random">
+      </ion-avatar>
+      <h2>Marty McFly</h2>
+      <p>{{currentComment?.DatePosted}}</p>
+    </ion-item>
+
+
+    <ion-card-content>
+      <p>{{currentComment?.comment}}</p>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button outline icon-start clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>{{currentComment?.likes}}</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-start (click)="commentButton(comment.id)" clear small>
+          <ion-icon name="text"></ion-icon>
+          <div>{{currentComment?.comments}}</div>
+        </button>
+      </ion-col>
+      <ion-col center text-center>
+        <ion-note>
+          11h ago
+        </ion-note>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+</ion-card-content>
+
+
+
+<ion-list>
+  <ion-list-header>
+    <button ion-button color="primary" full small round (click)="showReplies()" (click)="ShowReplies=!ShowReplies">
+      {{ShowReplies ? 'Hide' : 'Show Replies'}}</button>
+  </ion-list-header>
+  <ion-list *ngIf="ShowReplies">
+    <ion-item *ngFor = "let reply of replies">
+  <ion-card>
+    <ion-item>
+    <ion-avatar item-start>
+     <img src="https://picsum.photos/200/300/?random">
+    </ion-avatar>
+    <h2>Marty McFly</h2>
+    <p>{{reply.datePosted | date: 'medium'}}</p>
+  </ion-item>
+    <ion-card-content>
+      <p>{{reply.comments}}</p>
+    </ion-card-content>
+</ion-card>
+    </ion-item>
+  </ion-list>
+</ion-list>
+
+</ion-content>

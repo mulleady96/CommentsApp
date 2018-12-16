@@ -1,0 +1,81 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Comments</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+<form>
+  <form [formGroup]="createCommentForm" (submit)="createComment()" novalidate>
+  <ion-item>
+       <ion-label stacked>Comment</ion-label>
+       <ion-textarea (input)="onTextarea($event.target.value)" formControlName="comment" rows="3" maxlength="200" type="text"
+         placeholder="What's On Your Mind?">
+       </ion-textarea>
+       <ion-label class="remaining" color="{{remaining < 50 ? 'danger' : 'grey'}}">{{remaining}} Characters Remaining</ion-label>
+     </ion-item>
+     <button ion-button block type="submit" [disabled]="!createCommentForm.valid">
+     Post Comment
+     </button>
+     </form>
+
+</form>
+
+<h4>{{count}} Comments</h4>
+
+<ion-list *ngFor="let comment of comments">
+
+<ion-card-content>
+
+  <ion-card>
+
+  <ion-item>
+    <ion-avatar item-start>
+     <img src="https://api.adorable.io/avatars/222">
+    </ion-avatar>
+    <h2>Marty McFly</h2>
+    <p>{{comment.DatePosted}}</p>
+  </ion-item>
+
+
+  <ion-card-content>
+    <p>{{comment.comment}}</p>
+  </ion-card-content>
+
+  <ion-row>
+    <ion-col>
+      <button ion-button outline (click)="likesButton(comment.id)" icon-start clear small>
+        <ion-icon name="thumbs-up"></ion-icon>
+        <div>{{comment.likes}}</div>
+      </button>
+      <button ion-button color="danger" outline (click)="dislikesButton(comment.id)" icon-start clear small>
+        <ion-icon  name="thumbs-down"></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col>
+      <button ion-button icon-start (click)="commentButton(comment.id)" clear small>
+        <ion-icon name="text"></ion-icon>
+        <div>{{comment.comments}}</div>
+      </button>
+    </ion-col>
+    <ion-col center text-center>
+      <ion-note>
+        11h ago
+      </ion-note>
+    </ion-col>
+  </ion-row>
+</ion-card>
+
+  </ion-card-content>
+</ion-list>
+
+
+</ion-content>
